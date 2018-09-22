@@ -11,7 +11,6 @@ from PIL import Image
 from openslide.deepzoom import DeepZoomGenerator
 from os import listdir
 from os.path import isfile, join
-#from k_means import scan_dir, k_means
 
 def makemydir(whatever):
     try:
@@ -74,7 +73,8 @@ def cropFilter(working_directory):
         for dirName, subdirList, fileList in os.walk(working_directory):
           os.chdir(dirName)
           for fname in fileList:
-            if(fname.endswith('.jpeg') and dirName!=outlierPath):
+            if(fname.endswith('.jpeg') and dirName.endswith('outlier')==False):
+            #if(fname.endswith('.jpeg') and dirName!=outlierPath):
                 im_grayscale = cv2.imread(fname,0)
                 blur = cv2.GaussianBlur(im_grayscale,(5,5),0)
                 ret,th = cv2.threshold(blur,180,255,cv2.THRESH_BINARY)
@@ -83,6 +83,8 @@ def cropFilter(working_directory):
                 width = dimension[1]
                 count = 0
                 name,formato=fname.split('.')
+                print name
+                print dirName
                 cl,pz,roi=name.split('_')
 
                 for i in range(height):
@@ -121,8 +123,10 @@ def delete_dir(path_stroma):
             b=[]
 
             for i in range(len(a)):
-                t = int(a[i])
-                b.append(t)
+                result = a[i].endswith('ini')
+                if result==False:
+                    t = int(a[i])
+                    b.append(t)
             b.sort()
             magnification20=b[-2]
 

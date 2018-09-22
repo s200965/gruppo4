@@ -1,4 +1,3 @@
-#from distutils.dir_util import copy_tree
 import os
 import shutil
 
@@ -9,7 +8,8 @@ def copy_rename(source, dest,newName,oldName):
 
 
 def labelScratch(working_directory):
-	
+    """ This function renames all the patches present into 20X magnification directory
+        and move them outside the directory"""
 	newfilename=''
 	imageCounterAC=0
 	imageCounterAD=0
@@ -48,16 +48,10 @@ def labelScratch(working_directory):
 				print 'magnificationDir',magnificationDir
 				shutil.rmtree(magnificationDir)
 
-def makemydir(whatever):
-  try:
-    os.makedirs(whatever)
-  except OSError:
-    pass
-  # cd into the specified directory
-  os.chdir(whatever)
-
 
 def splitClasses(working_directory,classH,classAC,classAD):
+	""" This function scans the folder of all the initial images and move
+	    the patches into the right class folder AC, AD or H """
 	print '---- START SPLITTING PATCHES INTO CLASSES ----'
 	for dirName,subdirList,fileList in os.walk(working_directory):
 
@@ -86,12 +80,3 @@ def splitClasses(working_directory,classH,classAC,classAD):
 
 					shutil.move(src_file,new_dst_file_name)
 
-
-# working_directory=os.getcwd() 
-# name_toDirectory='/dataset'
-# working_directory=working_directory+name_toDirectory
-# #os.chdir(toDirectory)
-# labelScratch(working_directory)
-
-
-# splitClasses(working_directory)
